@@ -3,6 +3,11 @@
 {
   languages.go.enable = true;
 
+  git-hooks.hooks = {
+    gofmt.enable = true;
+    govet.enable = true;
+  };
+
   tasks = {
     "app:format".exec = "go fmt ./...";
 

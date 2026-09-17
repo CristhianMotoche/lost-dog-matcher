@@ -17,6 +17,10 @@ Enter the canonical development environment from the project root:
 devenv shell
 ```
 
+Entering the environment installs the repository's pre-commit hook. Before each
+commit, it formats staged Go files with `gofmt` and runs `go vet` for their
+packages. If formatting changes a file, stage the updated file and commit again.
+
 Run the API:
 
 ```bash
