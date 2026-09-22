@@ -1,6 +1,11 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
+  packages = [
+    pkgs.opencode
+    pkgs.openspec
+  ];
+
   languages.go.enable = true;
 
   git-hooks.hooks = {
