@@ -24,6 +24,7 @@ This project will eventually support a WhatsApp-based lost-dog matching service 
 - `docs/architecture.md`: architecture that exists today, not speculative design.
 - `docs/adr/`: accepted or proposed architecture decisions and their tradeoffs.
 - `devenv.nix` and `devenv.yaml`: canonical development environment, tasks, and processes.
+- `secretspec.toml`: declarations for secrets required by the application.
 
 Add new packages only when current behavior gives them a clear responsibility. As domain behavior appears, keep it independent of HTTP packages.
 
@@ -34,6 +35,14 @@ devenv is the canonical environment. Enter it before using direct Go commands:
 ```bash
 devenv shell
 ```
+
+At the start of environment-related work, verify that devenv loads by running
+`devenv shell -- true`. Before finishing a change that touches the development
+environment, run the same check again and resolve any configuration errors.
+If the configured SecretSpec provider prevents shell startup, retry with
+`SECRETSPEC_PROVIDER=env devenv shell -- true` to check devenv independently,
+and report that the configured provider still needs attention.
+Also enter the shell before running direct Go commands.
 
 Common commands:
 
@@ -46,6 +55,15 @@ Common commands:
 | Complete verification | — | `devenv tasks run app:check` |
 
 `devenv up` starts the API as a supervised development process.
+
+Keep the development environment canonical: when a change needs environment
+variables, development services, packages, tools, or secret loading, update
+`devenv.nix` and any related environment files (`devenv.yaml` and
+`secretspec.toml`) in the same change. Declare secret names and requirements in
+`secretspec.toml`; never put secret values in tracked files. Run application
+processes through `secretspec run` so secrets are provided only to the process
+that needs them. Do not configure a team-wide secret provider unless the task
+requires one; developers can choose their own provider.
 
 ## Agent workflow
 

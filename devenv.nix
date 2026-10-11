@@ -37,8 +37,8 @@
       ];
     };
 
-    "app:run".exec = "go run ./cmd/api";
+    "app:run".exec = "secretspec run -- go run ./cmd/api";
   };
 
-  processes.api.exec = "go run ./cmd/api";
+  processes.api.exec = "secretspec run -- go run ./cmd/api";
 }

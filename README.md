@@ -17,6 +17,12 @@ Enter the canonical development environment from the project root:
 devenv shell
 ```
 
+The API's WhatsApp credentials are declared in `secretspec.toml` and loaded
+only when starting the API. Configure a local SecretSpec provider once (for
+example, `secretspec config global init --provider keyring --profile development`)
+and store the four required values with that provider. Both
+`devenv tasks run app:run` and `devenv up` run the API through SecretSpec.
+
 Entering the environment installs the repository's pre-commit hook. Before each
 commit, it formats staged Go files with `gofmt` and runs `go vet` for their
 packages. If formatting changes a file, stage the updated file and commit again.
