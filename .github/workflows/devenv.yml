@@ -1,0 +1,28 @@
+name: devenv
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  shell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: cachix/install-nix-action@v31
+
+      - uses: cachix/cachix-action@v16
+        with:
+          name: devenv
+
+      - name: Install devenv
+        run: nix profile add nixpkgs#devenv
+
+      - name: Check that the devenv shell opens
+        env:
+          SECRETSPEC_PROVIDER: env
+        run: devenv shell -- true
